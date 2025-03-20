@@ -814,4 +814,8 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=port)
 
 # For Vercel deployment
-app.debug = False 
+app.debug = False # Add this handler for Vercel serverless functions
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def catch_all(path):
+    return app.send_static_file("index.html")
